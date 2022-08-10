@@ -24,6 +24,13 @@ config/name="Chelydra"
 run/main_scene="res://MainScene.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1536
+window/size/height=1080
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [editor]
 
 version_control_autoload_on_startup=true
@@ -32,6 +39,11 @@ version_control_plugin_name="GitAPI"
 [gdnative]
 
 singletons=[  ]
+
+[layer_names]
+
+2d_physics/layer_1="Towers"
+2d_physics/layer_2="Enemies"
 
 [physics]
 
