@@ -60,7 +60,7 @@ outlines = [ PoolVector2Array( 1536, 0, 1536, 768, 0, 768, 0, 0 ) ]
 tile_set = SubResource( 1 )
 cell_size = Vector2( 512, 512 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 131072, 2, 0, 131073, 2, 0, 131074, 2, 0 )
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0 )
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="."]
 navpoly = SubResource( 2 )
@@ -71,26 +71,25 @@ navpoly = SubResource( 2 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -312.0
-margin_bottom = 8.0
+margin_top = -256.0
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/HBoxContainer"]
 margin_right = 200.0
-margin_bottom = 320.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 200, 200 )
 size_flags_vertical = 3
 
 [node name="ColorRect2" type="ColorRect" parent="CanvasLayer/HBoxContainer"]
 margin_left = 204.0
 margin_right = 1332.0
-margin_bottom = 320.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 200, 200 )
 size_flags_horizontal = 3
 
 [node name="ColorRect3" type="ColorRect" parent="CanvasLayer/HBoxContainer"]
 margin_left = 1336.0
 margin_right = 1536.0
-margin_bottom = 320.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 200, 200 )
 
 [node name="ColorRect4" type="ReferenceRect" parent="CanvasLayer"]
@@ -121,7 +120,7 @@ position = Vector2( 448, 448 )
 [node name="Enemies" type="Node" parent="."]
 
 [node name="TemplateEnemy" parent="Enemies" instance=ExtResource( 3 )]
-position = Vector2( 768, 384 )
+position = Vector2( 1192, 265 )
 
 [node name="Goal" type="Node2D" parent="."]
 position = Vector2( 384, 384 )
