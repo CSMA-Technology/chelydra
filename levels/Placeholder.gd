@@ -7,7 +7,6 @@ var isGridOff = true
 func _on_Button_pressed():
 	var grid = $GridOverlay
 	isGridOff = !isGridOff
-	print(isGridOff)
 	if(isGridOff):
 		grid.queue_free()
 	else:
