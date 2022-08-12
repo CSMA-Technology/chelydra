@@ -19,7 +19,7 @@
 0/shapes = [  ]
 0/z_index = 0
 
-[node name="GridOverlay" type="Node2D"]
+[node name="GridOverlay" type="Node2D" groups=["grid"]]
 script = ExtResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]

@@ -36,13 +36,23 @@ margin_top = 188.0
 margin_right = 748.0
 margin_bottom = 444.0
 
-[node name="Button" type="Button" parent="UIPlaceholder/Control"]
+[node name="ToggleGridButton" type="Button" parent="UIPlaceholder/Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = -72.0
+margin_left = -228.0
 margin_top = 276.0
-margin_right = 12.0
+margin_right = -144.0
 margin_bottom = 320.0
 text = "Toggle Grid"
 
-[connection signal="pressed" from="UIPlaceholder/Control/Button" to="." method="_on_Button_pressed"]
+[node name="PlaceTowerButton" type="Button" parent="UIPlaceholder/Control"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 124.0
+margin_top = 281.0
+margin_right = 208.0
+margin_bottom = 325.0
+text = "Place Tower"
+
+[connection signal="pressed" from="UIPlaceholder/Control/ToggleGridButton" to="." method="_on_ToggleGridButton_pressed"]
+[connection signal="pressed" from="UIPlaceholder/Control/PlaceTowerButton" to="." method="_on_PlaceTowerButton_pressed"]
