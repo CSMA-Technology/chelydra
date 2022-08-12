@@ -9,4 +9,4 @@ func _input(event):
 		var position = Vector2(int(event.position.x/cell_size), int(event.position.y/cell_size))
 		if position != coord:
 			coord = position
-			print("Mouse at : ", coord)
+			# print("Mouse at : ", coord)
