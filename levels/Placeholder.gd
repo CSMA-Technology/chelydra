@@ -18,13 +18,6 @@ func _on_ToggleGridButton_toggled(grid_on):
 		for i in grid_nodes.size():
 			grid_nodes[i].queue_free() # is there a better way to do this?
 
-func place_tower(position, tower):
-	print("place a tower here: ", position)
-	print(tower)
-	var new_tower = tower.instance()
-	new_tower.position = position
-	add_child(new_tower)
-
 func _on_PlacementModeButton_toggled(placement_mode_on):
 	var placement_nodes = get_tree().get_nodes_in_group("tower_placement")
 	if(placement_mode_on):
@@ -35,3 +28,9 @@ func _on_PlacementModeButton_toggled(placement_mode_on):
 	else:
 		for i in placement_nodes.size():
 			placement_nodes[i].queue_free()
+
+func place_tower(position, tower):
+#	print("place a tower here: ", position)
+	var new_tower = tower.instance()
+	new_tower.position = position
+	add_child(new_tower)

@@ -9,7 +9,7 @@ signal place_tower(position, tower)
 func _input(event):
 	if event is InputEventMouseMotion:
 		var snap_position = calculate_snap_position(event.position)
-		tower.position = snap_position*cell_size
+		tower.position = snap_position*cell_size # the initial tower position is at 0,0 so sometimes it stays there until the mouse moves, not sure how to fix that?
 #		print("Mouse at : ", snap_position)
 	if event is InputEventMouseButton and event.pressed:
 		emit_signal("place_tower", calculate_snap_position(event.position)*cell_size, tower_scene) # how will we pass the packed scene of different tower types?
