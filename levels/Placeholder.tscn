@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://levels/GridOverlay.tscn" type="PackedScene" id=1]
 [ext_resource path="res://levels/Placeholder.gd" type="Script" id=2]
+[ext_resource path="res://levels/TowerPlacement.tscn" type="PackedScene" id=3]
 
 [node name="Placeholder" type="Node2D"]
 script = ExtResource( 2 )
@@ -62,6 +64,14 @@ custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 disabled = true
 text = "Placement Mode"
+
+[node name="PlacementOverlay" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="GridOverlay" parent="PlacementOverlay" instance=ExtResource( 1 )]
+
+[node name="TowerPlacement" parent="PlacementOverlay" instance=ExtResource( 3 )]
 
 [connection signal="toggled" from="UIPlaceholder/Control/ToggleGridButton" to="." method="_on_ToggleGridButton_toggled"]
 [connection signal="toggled" from="UIPlaceholder/Control/PlacementModeButton" to="." method="_on_PlacementModeButton_toggled"]
