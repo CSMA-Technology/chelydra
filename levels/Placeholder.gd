@@ -1,7 +1,7 @@
 extends Node2D
 
 var GridOverlay = preload("res://levels/GridOverlay.tscn")
-var TemplateTower = preload("res://Towers/TemplateTower.tscn")
+var TowerPlacement = preload("res://levels/TowerPlacement.tscn")
 var is_grid_on = false
 onready var placement_mode_button = $UIPlaceholder/Control/PlacementModeButton
 
@@ -21,6 +21,5 @@ func _on_ToggleGridButton_toggled(grid_on):
 
 func _on_PlacementModeButton_toggled(placement_mode_on):
 	if(placement_mode_on):
-		var new_tower = TemplateTower.instance()
-		new_tower.position = get_global_mouse_position()
+		var new_tower = TowerPlacement.instance()
 		add_child(new_tower)

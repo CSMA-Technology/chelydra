@@ -19,7 +19,7 @@ anchor_bottom = 0.5
 margin_left = -768.0
 margin_top = -540.0
 margin_right = 768.0
-margin_bottom = 485.0
+margin_bottom = 228.0
 color = Color( 0.843137, 0.713726, 0.513726, 1 )
 
 [node name="Control" type="Control" parent="UIPlaceholder"]
