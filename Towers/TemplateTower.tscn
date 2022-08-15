@@ -1,12 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 32 )
-
-[sub_resource type="NavigationPolygon" id=2]
-vertices = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( 64, 0, 0, 0, 0, 64, 64, 64 ) ]
 
 [node name="TemplateTower" type="StaticBody2D"]
 collision_mask = 2
@@ -19,7 +14,3 @@ shape = SubResource( 1 )
 margin_right = 64.0
 margin_bottom = 64.0
 color = Color( 0.137255, 0.203922, 0.435294, 1 )
-
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="."]
-navpoly = SubResource( 2 )
-navigation_layers = 2
