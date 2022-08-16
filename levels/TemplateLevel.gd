@@ -14,7 +14,6 @@ func _on_PlacementModeButton_toggled(placement_mode_toggle):
 	placement_mode = placement_mode_toggle
 
 func place_tower(position, tower):
-#	print("place a tower here: ", position)
 	var new_tower = tower.instance()
 	new_tower.position = position
 	add_child(new_tower)
