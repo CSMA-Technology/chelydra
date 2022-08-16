@@ -13,8 +13,8 @@ func _input(event):
 			tower.position = snap_position*cell_size
 		if event is InputEventMouseButton and event.pressed:
 			var placement_area = $TileMap.get_used_rect()
-			print("placement area: ", placement_area.position, " to ", placement_area.end)
-			print("placement point: ", event.position/cell_size)
+			print_debug("placement area: ", placement_area.position, " to ", placement_area.end)
+			print_debug("placement point: ", event.position/cell_size)
 			if (placement_area.has_point(event.position/cell_size)):
 				emit_signal("place_tower", calculate_snap_position(event.position)*cell_size, tower_scene)
 

@@ -16,4 +16,5 @@ func _on_PlacementModeButton_toggled(placement_mode_toggle):
 func place_tower(position, tower):
 	var new_tower = tower.instance()
 	new_tower.position = position
-	add_child(new_tower)
+	$Towers.add_child(new_tower)
+	$Navigation.update_nav_area()
