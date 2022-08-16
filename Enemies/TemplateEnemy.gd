@@ -11,7 +11,7 @@ export var debug_mode = false setget set_debug
 const ARRIVAL_BUFFER = 10
 const SPEED = 3
 
-signal reached_goal
+signal reached_goal(damage)
 
 func set_debug(val: bool):
 	debug_mode = val
@@ -44,5 +44,6 @@ func update_path():
 	next_destination_idx = 0
 
 func handle_goal_arrival():
-	emit_signal("reached_goal")
+#	print_debug("reached goal inside enemy")
+	emit_signal("reached_goal", 1)
 	queue_free()
