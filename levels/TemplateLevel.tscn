@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/GFX/wood/horizontal/wood5_horizontal.png" type="Texture" id=1]
 [ext_resource path="res://assets/GFX/wood/horizontal/wood1_horizontal.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://levels/TemplateLevel.gd" type="Script" id=6]
 [ext_resource path="res://levels/Navigation.gd" type="Script" id=7]
 [ext_resource path="res://levels/TowerPlacement.tscn" type="PackedScene" id=8]
+[ext_resource path="res://levels/Goal.tscn" type="PackedScene" id=9]
 
 [sub_resource type="TileSet" id=1]
 0/name = "LightWood"
@@ -77,6 +78,7 @@ outlines = [ PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 ) ]
 
 [node name="TemplateLevel" type="Node2D"]
 script = ExtResource( 6 )
+health = 10
 
 [node name="BackgroundTileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
@@ -127,7 +129,7 @@ size_flags_vertical = 3
 border_width = 1.4
 editor_only = false
 
-[node name="CheckButton" type="CheckButton" parent="CanvasLayer"]
+[node name="PlacementModeButton" type="CheckButton" parent="CanvasLayer"]
 margin_left = 697.0
 margin_top = 869.0
 margin_right = 773.0
@@ -138,6 +140,13 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 text = "Placement Mode"
+
+[node name="SpawnEnemyButton" type="Button" parent="CanvasLayer"]
+margin_left = 498.0
+margin_top = 881.0
+margin_right = 597.0
+margin_bottom = 901.0
+text = "Spawn Enemy"
 
 [node name="Towers" type="Node" parent="."]
 
@@ -151,10 +160,20 @@ collision_mask = 0
 position = Vector2( 1344, 320 )
 debug_mode = true
 
-[node name="Goal" type="Node2D" parent="."]
-position = Vector2( 64, 576 )
-
 [node name="TowerPlacement" parent="." instance=ExtResource( 8 )]
 
-[connection signal="toggled" from="CanvasLayer/CheckButton" to="." method="_on_PlacementModeButton_toggled"]
+[node name="Goal" parent="." instance=ExtResource( 9 )]
+position = Vector2( 128, 416 )
+
+[node name="ScoreLabel" type="Label" parent="."]
+margin_left = 17.0
+margin_top = 410.0
+margin_right = 107.0
+margin_bottom = 424.0
+text = "HP: 10"
+align = 1
+
+[connection signal="toggled" from="CanvasLayer/PlacementModeButton" to="." method="_on_PlacementModeButton_toggled"]
+[connection signal="pressed" from="CanvasLayer/SpawnEnemyButton" to="." method="_on_SpawnEnemyButton_pressed"]
+[connection signal="reached_goal" from="Enemies/TemplateEnemy" to="." method="_on_Enemy_reached_goal"]
 [connection signal="place_tower" from="TowerPlacement" to="." method="place_tower"]

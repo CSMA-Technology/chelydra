@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "TemplateEnemy",
+"language": "GDScript",
+"path": "res://Enemies/TemplateEnemy.gd"
+} ]
+_global_script_class_icons={
+"TemplateEnemy": ""
+}
+
 [application]
 
 config/name="Chelydra"
