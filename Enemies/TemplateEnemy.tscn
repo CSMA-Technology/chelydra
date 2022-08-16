@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Enemies/TemplateEnemy.gd" type="Script" id=1]
 
-[node name="TemplateEnemy" type="KinematicBody2D"]
+[node name="TemplateEnemy" type="KinematicBody2D" groups=["Navigators"]]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource( 1 )

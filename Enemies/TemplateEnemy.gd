@@ -34,6 +34,7 @@ func _physics_process(delta):
 		move_and_collide(movement)
 
 func update_path():
+	Navigation2DServer.map_force_update(get_world_2d().get_navigation_map())
 	path = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), global_position, goal, false)
 	$Debug/PathLine2d.points = path
 	next_destination_idx = 0
