@@ -39,7 +39,6 @@ func update_score_label(score):
 	score_label.text = "HP: " + str(score)
 
 func _on_Enemy_reached_goal(damage):
-	print("enemy reached goal!")
 	health -= damage
 	update_score_label(health)
 	if (health <= 0):
@@ -47,4 +46,4 @@ func _on_Enemy_reached_goal(damage):
 
 # debug / dev function
 func _on_SpawnEnemyButton_pressed():
-	spawn_enemy(Vector2(1568, clamp(randi() % 1025, 0, 1024)))
+	$EnemySpawns.spawn()

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wood2_horizontal.png-bbb2c0effc7c32b5c9c5962407b6192a.stex"
+path="res://.import/wood2_horizontal.png-8afdd2885351d649d045f67ab4f26b59.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/GFX/wood/horizontal/wood2_horizontal.png"
-dest_files=[ "res://.import/wood2_horizontal.png-bbb2c0effc7c32b5c9c5962407b6192a.stex" ]
+source_file="res://Assets/GFX/wood/horizontal/wood2_horizontal.png"
+dest_files=[ "res://.import/wood2_horizontal.png-8afdd2885351d649d045f67ab4f26b59.stex" ]
 
 [params]
 
