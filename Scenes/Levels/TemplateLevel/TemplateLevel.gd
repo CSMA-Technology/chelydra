@@ -1,8 +1,8 @@
 extends Node2D
 
 onready var score_label = $ScoreLabel
-var TowerPlacement = preload("res://levels/TowerPlacement.tscn")
-var enemy = preload("res://Enemies/TemplateEnemy.tscn")
+var TowerPlacement = preload("res://Scenes/Utils/TowerPlacement/TowerPlacement.tscn")
+var enemy = preload("res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.tscn")
 var is_grid_on = false
 export var placement_mode = false
 export var health = 3
