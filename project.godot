@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "TemplateEnemy",
 "language": "GDScript",
-"path": "res://Enemies/TemplateEnemy.gd"
+"path": "res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.gd"
 } ]
 _global_script_class_icons={
 "TemplateEnemy": ""
@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Chelydra"
-run/main_scene="res://MainScene.tscn"
+run/main_scene="res://Scenes/Levels/TemplateLevel/TemplateLevel.tscn"
 config/icon="res://icon.png"
 
 [display]

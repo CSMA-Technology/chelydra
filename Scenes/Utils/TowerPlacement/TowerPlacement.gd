@@ -1,7 +1,7 @@
 extends Node2D
 
 onready var tower = $TowerPlaceholder
-var tower_scene = preload("res://Towers/TemplateTower.tscn")
+var tower_scene = preload("res://Scenes/Towers/TemplateTower.tscn")
 var cell_size = 64
 
 const GREEN = "0c9e20"
@@ -9,7 +9,7 @@ const RED = "f1270c"
 
 signal place_tower(position, tower)
 
-func _process(delta):
+func _process(_delta):
 	if is_placement_valid():
 		$TowerPlaceholder/ColorRect.color = GREEN
 	else:
