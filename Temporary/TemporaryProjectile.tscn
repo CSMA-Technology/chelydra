@@ -3,6 +3,8 @@
 [ext_resource path="res://Temporary/TemporaryProjectile.gd" type="Script" id=1]
 
 [node name="TemporaryProjectile" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
 script = ExtResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
@@ -12,4 +14,4 @@ polygon = PoolVector2Array( -3, -3, -3, 3, 3, 3, 3, -3 )
 color = Color( 0.772549, 0.341176, 0.945098, 1 )
 polygon = PoolVector2Array( -3, -3, -3, 3, 3, 3, 3, -3 )
 
-[connection signal="area_entered" from="." to="." method="_on_TemporaryProjectile_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_TemporaryProjectile_body_entered"]
