@@ -44,6 +44,8 @@ singletons=[  ]
 
 2d_physics/layer_1="Towers"
 2d_physics/layer_2="Enemies"
+2d_physics/layer_3="Spawns"
+2d_physics/layer_4="Projectiles"
 
 [physics]
 
