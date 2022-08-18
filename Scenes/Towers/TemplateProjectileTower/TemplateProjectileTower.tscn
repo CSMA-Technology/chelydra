@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Towers/TemplateProjectileTower/ProjectileLauncher.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Towers/TemplateTower.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Towers/TemplateProjectileTower/RangeVisualizer.gd" type="Script" id=3]
+[ext_resource path="res://Assets/GFX/pointers/crosshair063.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Towers/Projectiles/TemplateProjectile/TemplateProjectile.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 128.0
+
+[node name="TemplateProjectileTower" instance=ExtResource( 2 )]
+
+[node name="ProjectileLauncher" type="Area2D" parent="." index="2"]
+position = Vector2( 32, 32 )
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 1 )
+projectile = ExtResource( 5 )
+
+[node name="Range" type="CollisionShape2D" parent="ProjectileLauncher" index="0"]
+shape = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="ProjectileLauncher" index="1"]
+one_shot = true
+
+[node name="Debug" type="Node2D" parent="ProjectileLauncher" index="2"]
+
+[node name="RangeVisualizer" type="Node2D" parent="ProjectileLauncher/Debug" index="0"]
+script = ExtResource( 3 )
+radius = 128
+
+[node name="TargetVisualizer" type="Sprite" parent="ProjectileLauncher/Debug" index="1"]
+scale = Vector2( 0.25, 0.25 )
+z_index = 4
+texture = ExtResource( 4 )
+
+[connection signal="body_entered" from="ProjectileLauncher" to="ProjectileLauncher" method="_on_ProjectileLauncher_body_entered"]
+[connection signal="body_exited" from="ProjectileLauncher" to="ProjectileLauncher" method="_on_ProjectileLauncher_body_exited"]
+[connection signal="timeout" from="ProjectileLauncher/Timer" to="ProjectileLauncher" method="_on_Timer_timeout"]
