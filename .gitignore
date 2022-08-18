@@ -11,9 +11,5 @@ lib/
 export_presets.cfg
 .mono/
 
-# Mac 
-<<<<<<< HEAD
+# Mac
 **/.DS_Store
-=======
-**/.DS_Store
->>>>>>> 2920eef (didnt push temp folder, modified gitignore)
