@@ -20,6 +20,5 @@ func _physics_process(delta):
 	look_at(target.global_position)
 	var collision = move_and_collide(movement)
 	if collision:
-		if collision.collider is TemplateEnemy:
-			collision.collider.take_damage(damage)
+		collision.collider.take_damage(damage)
 		queue_free()
