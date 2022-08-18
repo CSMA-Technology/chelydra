@@ -8,9 +8,9 @@ var next_destination_idx
 
 export var debug_mode = false setget set_debug
 export var health = 100
+export var speed = 3
 
 const ARRIVAL_BUFFER = 10
-const SPEED = 3
 
 signal reached_goal(damage)
 
@@ -34,7 +34,7 @@ func _physics_process(_delta):
 				next_destination_idx += 1
 
 		var direction = (path[next_destination_idx] - global_position).normalized()
-		var movement = direction * SPEED
+		var movement = direction * speed
 		$Debug/MovementLine2d.points = PoolVector2Array([Vector2(0,0), direction * 100])
 		move_and_collide(movement)
 
