@@ -78,7 +78,6 @@ outlines = [ PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 ) ]
 [node name="TemplateLevel" type="Node2D"]
 script = ExtResource( 4 )
 health = 10
-debug_mode = true
 
 [node name="BackgroundTileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )

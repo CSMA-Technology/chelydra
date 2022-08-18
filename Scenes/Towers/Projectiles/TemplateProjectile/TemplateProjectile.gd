@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 var target
 export var speed = 10
+export var damage = 50
 
 func _ready():
 	hide()
@@ -19,4 +20,6 @@ func _physics_process(delta):
 	look_at(target.global_position)
 	var collision = move_and_collide(movement)
 	if collision:
+		if collision.collider is TemplateEnemy:
+			collision.collider.take_damage(damage)
 		queue_free()
