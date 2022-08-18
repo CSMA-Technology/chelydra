@@ -7,6 +7,7 @@ var path: PoolVector2Array
 var next_destination_idx
 
 export var debug_mode = false setget set_debug
+export var health = 100
 
 const ARRIVAL_BUFFER = 10
 const SPEED = 3
@@ -44,6 +45,11 @@ func update_path():
 	next_destination_idx = 0
 
 func handle_goal_arrival():
-#	print_debug("reached goal inside enemy")
 	emit_signal("reached_goal", 1)
 	queue_free()
+
+func take_damage(damage):
+	print("enemy taking damage: ", damage)
+	health -= damage
+	if (health <= 0):
+		queue_free()
