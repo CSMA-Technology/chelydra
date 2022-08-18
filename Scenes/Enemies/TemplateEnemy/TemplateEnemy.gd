@@ -49,6 +49,7 @@ func handle_goal_arrival():
 	queue_free()
 
 func take_damage(damage):
+	self.set_modulate(Color(255, 0, 0, 1)) # should flicker the color
 	health -= damage
 	if (health <= 0):
 		queue_free()
