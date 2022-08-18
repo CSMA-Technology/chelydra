@@ -15,7 +15,7 @@ polygon = PoolVector2Array( 64, 0, 64, 64, 0, 34 )
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
 scale = Vector2( 0.5, 0.5 )
-polygon = PoolVector2Array( 64, 0, 64, 64, 0, 33 )
+polygon = PoolVector2Array( 0, 34, 64, 64, 64, 0 )
 
 [node name="Debug" type="Node2D" parent="."]
 visible = false
@@ -27,3 +27,8 @@ default_color = Color( 0.101961, 0.894118, 0.0941176, 1 )
 [node name="MovementLine2d" type="Line2D" parent="Debug"]
 z_index = 4
 default_color = Color( 1, 0.4, 0.4, 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PoolVector2Array( -16, 1, 16, 16, 16, -16 )

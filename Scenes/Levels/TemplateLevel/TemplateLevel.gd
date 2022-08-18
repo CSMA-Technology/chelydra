@@ -3,9 +3,11 @@ extends Node2D
 onready var score_label = $ScoreLabel
 var TowerPlacement = preload("res://Scenes/Utils/TowerPlacement/TowerPlacement.tscn")
 var enemy = preload("res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.tscn")
+var TempProjectile = preload("res://Temporary/TemporaryProjectile.tscn")
 var is_grid_on = false
 export var placement_mode = false
 export var health = 3
+export var debug_mode = false
 
 func _ready(): 
 	randomize()
@@ -16,6 +18,10 @@ func _process(_delta):
 		$TowerPlacement.show()
 	else:
 		$TowerPlacement.hide()
+	if (debug_mode):
+		# Manual shoot to damage enemies
+		if Input.is_action_just_pressed("shoot"):
+			manual_shoot()
 
 # debug / dev function
 func _on_PlacementModeButton_toggled(placement_mode_toggle):
@@ -30,7 +36,7 @@ func place_tower(position, tower):
 func spawn_enemy(position):
 	var new_enemy = enemy.instance()
 	new_enemy.position = position
-	new_enemy.debug_mode = true
+	new_enemy.debug_mode = false
 	$Enemies.add_child(new_enemy)
 	if new_enemy.has_signal("reached_goal"):
 		new_enemy.connect("reached_goal", self, "_on_Enemy_reached_goal")
@@ -47,3 +53,9 @@ func _on_Enemy_reached_goal(damage):
 # debug / dev function
 func _on_SpawnEnemyButton_pressed():
 	$EnemySpawns.spawn()
+
+# debug / dev function
+func manual_shoot():
+	var new_projectile = TempProjectile.instance()
+	new_projectile.position = get_viewport().get_mouse_position()
+	add_child(new_projectile)
