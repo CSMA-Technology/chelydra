@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.gd" type="Script" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+uniform bool turn_red;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	if (turn_red) {
+		COLOR = vec4(1, 0, 0, 1);
+	} else {
+		COLOR = color;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/turn_red = null
 
 [node name="TemplateEnemy" type="KinematicBody2D" groups=["Navigators"]]
 collision_layer = 2
@@ -13,9 +31,10 @@ scale = Vector2( 0.5, 0.5 )
 polygon = PoolVector2Array( 64, 0, 64, 64, 0, 34 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+material = SubResource( 2 )
 position = Vector2( -16, -16 )
 scale = Vector2( 0.5, 0.5 )
-polygon = PoolVector2Array( 64, 0, 64, 64, 0, 33 )
+polygon = PoolVector2Array( 0, 34, 64, 64, 64, 0 )
 
 [node name="Debug" type="Node2D" parent="."]
 visible = false

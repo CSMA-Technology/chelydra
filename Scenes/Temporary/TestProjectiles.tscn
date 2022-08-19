@@ -7,3 +7,6 @@
 
 [node name="TemplateProjectileTower" parent="Towers" index="0" instance=ExtResource( 2 )]
 position = Vector2( 640, 320 )
+
+[connection signal="spawn_enemy" from="EnemySpawns" to="." method="spawn_enemy"]
+[connection signal="place_tower" from="TowerPlacement" to="." method="place_tower"]

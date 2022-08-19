@@ -30,7 +30,6 @@ func place_tower(position, tower):
 func spawn_enemy(position):
 	var new_enemy = enemy.instance()
 	new_enemy.position = position
-	new_enemy.debug_mode = true
 	$Enemies.add_child(new_enemy)
 	if new_enemy.has_signal("reached_goal"):
 		new_enemy.connect("reached_goal", self, "_on_Enemy_reached_goal")

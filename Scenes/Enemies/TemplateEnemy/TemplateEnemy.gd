@@ -7,9 +7,10 @@ var path: PoolVector2Array
 var next_destination_idx
 
 export var debug_mode = false setget set_debug
+export var health = 100
+export var speed = 3
 
 const ARRIVAL_BUFFER = 10
-const SPEED = 3
 
 signal reached_goal(damage)
 
@@ -33,7 +34,7 @@ func _physics_process(_delta):
 				next_destination_idx += 1
 
 		var direction = (path[next_destination_idx] - global_position).normalized()
-		var movement = direction * SPEED
+		var movement = direction * speed
 		$Debug/MovementLine2d.points = PoolVector2Array([Vector2(0,0), direction * 100])
 		move_and_collide(movement)
 
@@ -44,6 +45,16 @@ func update_path():
 	next_destination_idx = 0
 
 func handle_goal_arrival():
-#	print_debug("reached goal inside enemy")
 	emit_signal("reached_goal", 1)
 	queue_free()
+
+func take_damage(damage):
+	flash_red()
+	health -= damage
+	if (health <= 0):
+		queue_free()
+
+func flash_red():
+	$Polygon2D.material.set_shader_param("turn_red", true)
+	yield(get_tree().create_timer(0.05), "timeout")
+	$Polygon2D.material.set_shader_param("turn_red", false)
