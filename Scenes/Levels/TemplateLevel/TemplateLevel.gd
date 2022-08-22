@@ -1,7 +1,5 @@
 extends Node2D
 
-class_name TemplateTower
-
 onready var score_label = $ScoreLabel
 onready var tower_options = $HUD/Debug/TowerOptionButton
 onready var game_manager = get_node("/root/GameManager")
