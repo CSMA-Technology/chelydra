@@ -32,7 +32,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://Global.gd"
+GameManager="*res://Scenes/Utils/GameManager.gd"
 
 [display]
 
