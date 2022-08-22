@@ -1,28 +1,41 @@
 extends Node2D
 
+class_name TemplateTower
+
 onready var score_label = $ScoreLabel
+onready var tower_options = $HUD/Debug/TowerOptionButton
+onready var global_variables = get_node("/root/Global")
 var TowerPlacement = preload("res://Scenes/Utils/TowerPlacement/TowerPlacement.tscn")
 var enemy = preload("res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.tscn")
 var is_grid_on = false
+var tower_selection
 export var placement_mode = false
 export var health = 3
 
 func _ready(): 
 	randomize()
 	update_score_label(health)
+	# debug for the option menu 
+	for key in global_variables.TowerEnum.keys():
+		tower_options.add_item(key) 
+	tower_options.selected = 0
+	tower_selection = tower_options.get_item_text(tower_options.selected)
 
 func _process(_delta):
 	if (placement_mode):
 		$TowerPlacement.show()
+		tower_options.disabled = false
 	else:
 		$TowerPlacement.hide()
+		tower_options.disabled = true
 
 # debug / dev function
 func _on_PlacementModeButton_toggled(placement_mode_toggle):
 	placement_mode = placement_mode_toggle
 
 func place_tower(position, tower):
-	var new_tower = tower.instance()
+	var tower_type = global_variables.get_tower(tower_selection)
+	var new_tower = tower_type.instance()
 	new_tower.position = position
 	$Towers.add_child(new_tower)
 	$Navigation.update_nav_area()
@@ -46,3 +59,6 @@ func _on_Enemy_reached_goal(damage):
 # debug / dev function
 func _on_SpawnEnemyButton_pressed():
 	$EnemySpawns.spawn()
+
+func _on_TowerOptionButton_item_selected(index):
+	tower_selection = tower_options.get_item_text(index)

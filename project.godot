@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "TemplateEnemy",
 "language": "GDScript",
 "path": "res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.gd"
+}, {
+"base": "Node2D",
+"class": "TemplateTower",
+"language": "GDScript",
+"path": "res://Scenes/Levels/TemplateLevel/TemplateLevel.gd"
 } ]
 _global_script_class_icons={
-"TemplateEnemy": ""
+"TemplateEnemy": "",
+"TemplateTower": ""
 }
 
 [application]
@@ -23,6 +29,10 @@ _global_script_class_icons={
 config/name="Chelydra"
 run/main_scene="res://Scenes/Levels/TemplateLevel/TemplateLevel.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://Global.gd"
 
 [display]
 
