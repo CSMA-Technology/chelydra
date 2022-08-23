@@ -2,7 +2,6 @@ extends Node2D
 
 onready var score_label = $ScoreLabel
 onready var tower_options = $HUD/Debug/TowerOptionButton
-onready var game_manager = get_node("/root/GameManager")
 var TowerPlacement = preload("res://Scenes/Utils/TowerPlacement/TowerPlacement.tscn")
 var enemy = preload("res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.tscn")
 var is_grid_on = false
@@ -14,7 +13,7 @@ func _ready():
 	randomize()
 	update_score_label(health)
 	# debug for the option menu 
-	for key in game_manager.TowerEnum.keys():
+	for key in GameManager.TowerEnum.keys():
 		tower_options.add_item(key) 
 	tower_options.selected = 0
 	tower_selection = tower_options.get_item_text(tower_options.selected)
@@ -32,7 +31,7 @@ func _on_PlacementModeButton_toggled(placement_mode_toggle):
 	placement_mode = placement_mode_toggle
 
 func place_tower(position, tower):
-	var tower_scene = game_manager.get_tower_scene(tower_selection)
+	var tower_scene = GameManager.get_tower_scene(tower_selection)
 	var tower_type = load(tower_scene)
 	var new_tower = tower_type.instance()
 	new_tower.position = position
