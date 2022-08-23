@@ -3,7 +3,6 @@ extends Node2D
 onready var score_label = $ScoreLabel
 onready var tower_options = $HUD/Debug/TowerOptionButton
 var TowerPlacement = preload("res://Scenes/Utils/TowerPlacement/TowerPlacement.tscn")
-var enemy = preload("res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.tscn")
 var is_grid_on = false
 var tower_selection
 export var placement_mode = false
@@ -17,6 +16,7 @@ func _ready():
 		tower_options.add_item(key) 
 	tower_options.selected = 0
 	tower_selection = tower_options.get_item_text(tower_options.selected)
+	$EnemySpawns.is_spawning = true
 
 func _process(_delta):
 	if (placement_mode):
@@ -38,7 +38,7 @@ func place_tower(position, tower):
 	$Towers.add_child(new_tower)
 	$Navigation.update_nav_area()
 
-func spawn_enemy(position):
+func spawn_enemy(position, enemy):
 	var new_enemy = enemy.instance()
 	new_enemy.position = position
 	$Enemies.add_child(new_enemy)

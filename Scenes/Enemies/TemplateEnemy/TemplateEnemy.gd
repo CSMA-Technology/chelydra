@@ -54,7 +54,8 @@ func take_damage(damage):
 	if (health <= 0):
 		queue_free()
 
+
 func flash_red():
-	$Polygon2D.material.set_shader_param("turn_red", true)
+	$Sprite.material.set_shader_param("turn_red", true)
 	yield(get_tree().create_timer(0.05), "timeout")
-	$Polygon2D.material.set_shader_param("turn_red", false)
+	$Sprite.material.set_shader_param("turn_red", false)
