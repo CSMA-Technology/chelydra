@@ -2,17 +2,14 @@ extends TileMap
 
 export var spawn_interval = 5
 export var plus_minus = 1
-export var is_spawning = true setget handle_is_spawning
+export var is_spawning = false setget handle_is_spawning
 
-signal spawn_enemy(position)
-
-func _ready():
-	if is_spawning:
-		spawn()
-	maybe_start_timer()
+signal spawn_enemy(position, enemy)
 
 func handle_is_spawning(val):
 	is_spawning = val
+	if is_spawning:
+		spawn()
 	maybe_start_timer()
 
 func maybe_start_timer():
@@ -28,4 +25,9 @@ func spawn():
 		var cells = get_used_cells()
 		var random_cell = cells[randi() % cells.size()]
 		var center_point = (random_cell * cell_size) + Vector2(cell_size.x/2, cell_size.y/2)
-		emit_signal("spawn_enemy", center_point)
+		emit_signal("spawn_enemy", center_point, load(choose_enemy()))
+
+func choose_enemy():
+	var choice = GameManager.EnemyEnum.keys()[randi() % GameManager.EnemyEnum.size()]
+	print(choice)
+	return GameManager.get_enemy(choice)
