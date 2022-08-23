@@ -29,5 +29,4 @@ func spawn():
 
 func choose_enemy():
 	var choice = GameManager.EnemyEnum.keys()[randi() % GameManager.EnemyEnum.size()]
-	print(choice)
 	return GameManager.get_enemy(choice)
