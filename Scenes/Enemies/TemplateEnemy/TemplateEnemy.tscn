@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Enemies/TemplateEnemy/TemplateEnemy.gd" type="Script" id=1]
 [ext_resource path="res://Assets/GFX/enemies/icons8-notification-64.png" type="Texture" id=2]
@@ -6,7 +6,24 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform bool turn_red;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	if (turn_red) {
+		COLOR = vec4(255, 0, 0, 1);
+	} else {
+		COLOR = color;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = SubResource( 2 )
+shader_param/turn_red = null
 
 [node name="TemplateEnemy" type="KinematicBody2D" groups=["Navigators"]]
 collision_layer = 2
@@ -17,7 +34,7 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 2 )
+material = SubResource( 3 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
