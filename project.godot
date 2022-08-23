@@ -24,6 +24,10 @@ config/name="Chelydra"
 run/main_scene="res://Scenes/Levels/TemplateLevel/TemplateLevel.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+GameManager="*res://Scenes/Utils/GameManager.gd"
+
 [display]
 
 window/size/width=1536

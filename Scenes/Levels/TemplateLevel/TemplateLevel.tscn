@@ -131,11 +131,21 @@ size_flags_vertical = 3
 border_width = 1.4
 editor_only = false
 
-[node name="PlacementModeButton" type="CheckButton" parent="HUD"]
-margin_left = 697.0
-margin_top = 869.0
-margin_right = 773.0
-margin_bottom = 909.0
+[node name="Debug" type="Control" parent="HUD"]
+margin_left = 661.0
+margin_top = 841.0
+margin_right = 740.0
+margin_bottom = 905.0
+
+[node name="PlacementModeButton" type="CheckButton" parent="HUD/Debug"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -94.0
+margin_top = -128.0
+margin_right = 94.0
+margin_bottom = 128.0
 custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -143,12 +153,21 @@ custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 text = "Placement Mode"
 
-[node name="SpawnEnemyButton" type="Button" parent="HUD"]
-margin_left = 498.0
-margin_top = 881.0
-margin_right = 597.0
-margin_bottom = 901.0
+[node name="SpawnEnemyButton" type="Button" parent="HUD/Debug"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -214.0
+margin_top = -10.0
+margin_right = -115.0
+margin_bottom = 10.0
 text = "Spawn Enemy"
+
+[node name="TowerOptionButton" type="OptionButton" parent="HUD/Debug"]
+margin_left = 225.0
+margin_top = 24.0
+margin_right = 326.0
+margin_bottom = 44.0
+text = "Tower Type"
 
 [node name="Towers" type="Node" parent="."]
 
@@ -169,6 +188,7 @@ text = "HP: 10"
 align = 1
 
 [connection signal="spawn_enemy" from="EnemySpawns" to="." method="spawn_enemy"]
-[connection signal="toggled" from="HUD/PlacementModeButton" to="." method="_on_PlacementModeButton_toggled"]
-[connection signal="pressed" from="HUD/SpawnEnemyButton" to="." method="_on_SpawnEnemyButton_pressed"]
+[connection signal="toggled" from="HUD/Debug/PlacementModeButton" to="." method="_on_PlacementModeButton_toggled"]
+[connection signal="pressed" from="HUD/Debug/SpawnEnemyButton" to="." method="_on_SpawnEnemyButton_pressed"]
+[connection signal="item_selected" from="HUD/Debug/TowerOptionButton" to="." method="_on_TowerOptionButton_item_selected"]
 [connection signal="place_tower" from="TowerPlacement" to="." method="place_tower"]
