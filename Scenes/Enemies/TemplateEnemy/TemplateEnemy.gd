@@ -23,7 +23,7 @@ func set_debug(val: bool):
 		$Debug.hide()
 		$Debug/PathLine2d.set_as_toplevel(false)
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if goal.distance_to(global_position) < ARRIVAL_BUFFER:
 		handle_goal_arrival()
 	if not path:
@@ -36,7 +36,7 @@ func _physics_process(_delta):
 		var direction = (path[next_destination_idx] - global_position).normalized()
 		var movement = direction * speed
 		$Debug/MovementLine2d.points = PoolVector2Array([Vector2(0,0), direction * 100])
-		move_and_collide(movement)
+		move_and_collide(movement * delta)
 
 func update_path():
 	Navigation2DServer.map_force_update(get_world_2d().get_navigation_map())
