@@ -221,14 +221,6 @@ align = 1
 
 [node name="Line2D" type="Line2D" parent="."]
 
-[node name="Line2D2" type="Line2D" parent="."]
-default_color = Color( 1, 0.305882, 0, 1 )
-
-[node name="Pathfinder" type="Node2D" parent="."]
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Pathfinder"]
-navigation_layers = 2
-
 [connection signal="spawn_enemy" from="EnemySpawns" to="." method="spawn_enemy"]
 [connection signal="check_tower_position" from="TowerPlacement" to="." method="_on_TowerPlacement_check_tower_position"]
 [connection signal="place_tower" from="TowerPlacement" to="." method="place_tower"]

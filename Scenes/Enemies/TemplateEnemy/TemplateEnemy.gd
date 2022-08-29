@@ -14,6 +14,9 @@ const ARRIVAL_BUFFER = 10
 
 signal reached_goal(damage)
 
+func _ready():
+	Navigation2DServer.connect("map_changed", self, "update_path")
+
 func set_debug(val: bool):
 	debug_mode = val
 	if debug_mode:
@@ -27,7 +30,7 @@ func _physics_process(delta):
 	if goal.distance_to(global_position) < ARRIVAL_BUFFER:
 		handle_goal_arrival()
 	if not path:
-		update_path()
+		update_path(get_world_2d().get_navigation_map())
 	if path.size() > 0:
 		if (path[next_destination_idx].distance_to(global_position)) < ARRIVAL_BUFFER:
 			if path.size() > next_destination_idx + 1:
@@ -38,10 +41,11 @@ func _physics_process(delta):
 		$Debug/MovementLine2d.points = PoolVector2Array([Vector2(0,0), direction * 100])
 		move_and_collide(movement * delta)
 
-func update_path():
-	path = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), global_position, goal, false)
-	$Debug/PathLine2d.points = path
-	next_destination_idx = 0
+func update_path(map):
+	if map == get_world_2d().get_navigation_map():
+		path = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), global_position, goal, false)
+		$Debug/PathLine2d.points = path
+		next_destination_idx = 0
 
 func handle_goal_arrival():
 	emit_signal("reached_goal", 1)
