@@ -46,7 +46,7 @@ func calculate_snap_position(actual_position):
 func is_placement_valid():
 	return (
 		!known_bad_placements.has(tower.global_position) &&
-		(are_all_paths_clear || !has_neighbors() || known_good_placements.has(tower.global_position)) &&
+		(are_all_paths_clear || !has_potentially_blocking_neighbors() || known_good_placements.has(tower.global_position)) &&
 		!is_overlapping_something()
 		)
 
@@ -55,6 +55,26 @@ func is_overlapping_something():
 
 func has_neighbors():
 	return $TowerPlaceholder/NeighborChecker.get_overlapping_bodies().size() > 0
+
+func has_potentially_blocking_neighbors():
+	var neighbors = $TowerPlaceholder/NeighborChecker.get_overlapping_bodies()
+	if !neighbors:
+		return false
+	if $TowerPlaceholder.global_position.y == 0:
+		for neighbor in neighbors:
+			if neighbor.global_position.y == cell_size:
+				return true
+		return false
+	if $TowerPlaceholder.global_position.y == $TileMap.map_to_world($TileMap.get_used_cells().back()).y:
+		for neighbor in neighbors:
+			if neighbor.global_position.y == $TowerPlaceholder.global_position.y - cell_size:
+				return true
+		return false
+	if $TowerPlaceholder.global_position.x != 0 && $TowerPlaceholder.global_position.x != $TileMap.map_to_world($TileMap.get_used_cells().back()).x:
+		if neighbors.size() > 1: 
+			return true
+		return false
+	return true
 
 func place_tower(position):
 	known_good_placements.clear()
@@ -73,7 +93,7 @@ func check_tower_position():
 	# Wait one physics frame so that the collision on the neighbor check updates
 	yield(get_tree(), "physics_frame")
 	if (
-		has_neighbors() 
+		has_potentially_blocking_neighbors() 
 		&& !is_overlapping_something()
 		&& !known_bad_placements.has(tower.position) 
 		&& !known_good_placements.has(tower.position)

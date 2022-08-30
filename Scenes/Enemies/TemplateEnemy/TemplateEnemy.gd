@@ -13,9 +13,9 @@ export var speed = 3
 const ARRIVAL_BUFFER = 10
 
 signal reached_goal(damage)
-
-func _ready():
-	Navigation2DServer.connect("map_changed", self, "update_path")
+#
+#func _ready():
+#	Navigation2DServer.connect("map_changed", self, "update_path", [], CONNECT_DEFERRED)
 
 func set_debug(val: bool):
 	debug_mode = val
@@ -38,13 +38,15 @@ func _physics_process(delta):
 
 		var direction = (path[next_destination_idx] - global_position).normalized()
 		var movement = direction * speed
-		$Debug/MovementLine2d.points = PoolVector2Array([Vector2(0,0), direction * 100])
+		
 		move_and_collide(movement * delta)
+		if debug_mode:
+			$Debug/MovementLine2d.points = PoolVector2Array([Vector2(0,0), direction * 100])
+			$Debug/PathLine2d.points = path
 
 func update_path(map):
 	if map == get_world_2d().get_navigation_map():
 		path = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), global_position, goal, false)
-		$Debug/PathLine2d.points = path
 		next_destination_idx = 0
 
 func handle_goal_arrival():

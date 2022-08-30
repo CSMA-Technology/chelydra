@@ -119,6 +119,7 @@ tile_data = PoolIntArray( 0, 1073741824, 0, 1, 1073741824, 0, 2, 1073741824, 0, 
 script = ExtResource( 5 )
 
 [node name="MockNavigation" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource( 7 )
 cell_size = Vector2( 16, 16 )
 bake_navigation = true
@@ -220,6 +221,8 @@ text = "HP: 10"
 align = 1
 
 [node name="Line2D" type="Line2D" parent="."]
+
+[node name="Line2D2" type="Line2D" parent="."]
 
 [connection signal="spawn_enemy" from="EnemySpawns" to="." method="spawn_enemy"]
 [connection signal="check_tower_position" from="TowerPlacement" to="." method="_on_TowerPlacement_check_tower_position"]

@@ -10,18 +10,18 @@ func _ready():
 	yield(get_tree(),"physics_frame")
 	clone_tilemap_locations($"../Navigation")
 
+func _physics_process(delta):
+	claim_regions()
+
 func edit_tile(position: Vector2, tile_idx: int):
 	var edited_cells = .edit_tile(position, tile_idx)
 	yield(get_tree(), "physics_frame")
 	claim_regions()
-	yield(get_tree(), "physics_frame")
 	return edited_cells
 
 func restore_cells(cells):
 	for cell in cells:
 		set_cellv(cell, 0)
-	yield(get_tree(), "physics_frame")
-	claim_regions()
 
 func update_navigation():
 	update_dirty_quadrants()
@@ -34,11 +34,14 @@ func clone_tilemap_locations(source: TileMap):
 	clear()
 	for cell in source.get_used_cells():
 		set_cellv(cell, 0)
-	yield(get_tree(), "physics_frame")
-	claim_regions()
 
+var last_hash = [].hash()
 func claim_regions():
-	for region in Navigation2DServer.map_get_regions(get_world_2d().get_navigation_map()):
+	var regions = Navigation2DServer.map_get_regions(get_world_2d().get_navigation_map())
+	if last_hash == regions.hash():
+		return
+	last_hash = regions.hash()
+	for region in regions:
 		if Navigation2DServer.region_get_navigation_layers(region) == navigation_layers:
 			if Navigation2DServer.region_get_map(region) != map:
 				Navigation2DServer.region_set_map(region, map)

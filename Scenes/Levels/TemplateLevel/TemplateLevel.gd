@@ -10,7 +10,7 @@ export var health = 3
 
 const TOWER_SIZE = Vector2(64, 64)
 
-var current_spawn_path
+var current_spawn_paths = [null, null]
 
 func _ready():
 	randomize()
@@ -21,7 +21,7 @@ func _ready():
 	tower_options.selected = 0
 	tower_selection = tower_options.get_item_text(tower_options.selected)
 	$EnemySpawns.is_spawning = true
-	Navigation2DServer.connect("map_changed", self, "update_spawn_path")
+	Navigation2DServer.connect("map_changed", self, "update_paths")
 
 func _process(delta):
 	if (placement_mode):
@@ -31,10 +31,17 @@ func _process(delta):
 		$TowerPlacement.hide()
 		tower_options.disabled = true
 
-func update_spawn_path(map):
+func update_paths(map):
 	if map == get_world_2d().get_navigation_map():
-		current_spawn_path = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), $EnemySpawns.spawn_positions[0], $Goal.global_position, false)
-		$Line2D.points = current_spawn_path
+		current_spawn_paths[0] = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), $EnemySpawns.spawn_positions.front(), $Goal.global_position, false)
+		yield(get_tree(),"idle_frame")
+		current_spawn_paths[1] = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), $EnemySpawns.spawn_positions.back(), $Goal.global_position, false)
+		$Line2D.points = current_spawn_paths[0]
+		$Line2D2.points = current_spawn_paths[1]
+		for enemy in $Enemies.get_children():
+			yield(get_tree(),"idle_frame")
+			if weakref(enemy).get_ref():
+				enemy.update_path(map)
 
 # debug / dev function
 func _on_PlacementModeButton_toggled(placement_mode_toggle):
@@ -46,7 +53,7 @@ func place_tower(position, tower):
 	var new_tower = tower_type.instance()
 	new_tower.position = position
 	$Towers.add_child(new_tower)
-	$Navigation.cut_hole(new_tower.global_position, true)
+	$Navigation.cut_hole(new_tower.global_position)
 	$MockNavigation.cut_hole(new_tower.global_position)
 
 func spawn_enemy(position, enemy):
@@ -74,7 +81,11 @@ func _on_TowerOptionButton_item_selected(index):
 
 func compute_tower_placement_safety(placement: Vector2):
 	var tower_polygon = PoolVector2Array([placement, placement + Vector2(64, 0), placement + Vector2(0, 64), placement + Vector2(64, 64)])
-	var spawn_path_clear = !Geometry.intersect_polyline_with_polygon_2d(current_spawn_path, tower_polygon)
+	var spawn_path_clear = false
+	for spawn_path in current_spawn_paths:
+		if !Geometry.intersect_polyline_with_polygon_2d(spawn_path, tower_polygon):
+			spawn_path_clear = true
+			break
 	var enemies_obstructed = []
 	for enemy in $Enemies.get_children():
 		if Geometry.intersect_polyline_with_polygon_2d(enemy.path, tower_polygon):
