@@ -1,54 +1,123 @@
 extends TileMap
 
-const TOWER_SIZE = 64
-const BUFFER = 1
+# Mostly copied from https://escada-games.itch.io/randungeon/devlog/261991/how-to-use-godots-astar2d-for-path-finding
+
+var aStar:AStar2D
+export var debug_mode = false setget set_debug_mode
+export (NodePath) var goal
+onready var goal_pos = get_node(goal).global_position
+const GOAL_IDX = 69420
+
+var target_texture = preload("res://Assets/GFX/pointers/crosshair063.png")
 
 func _ready():
-	update_nav_area()
+	aStar = AStar2D.new()
+	for cell in get_used_cells():
+		var idx = get_AStar_cell_id(cell)
+		var point = get_cell_point(cell)
+		aStar.add_point(idx, point)
+	for cell in get_used_cells():
+		for neighbor in get_neighboring_cells(cell):
+			aStar.connect_points(get_AStar_cell_id(cell), get_AStar_cell_id(neighbor))
+	aStar.add_point(GOAL_IDX, goal_pos)
+	aStar.connect_points(GOAL_IDX, get_AStar_cell_id(world_to_map(goal_pos)))
+	if debug_mode:
+		draw_debug_points()
 
-func update_nav_area():
-	for tower in $"../Towers".get_children():
-		cut_hole(tower.global_position)
-	update_navigation()
+func get_path_to_goal(from: Vector2):
+	return aStar.get_point_path(get_AStar_cell_id(get_cell_from_pos(from)), GOAL_IDX)
 
-func cut_hole(position: Vector2, update=false):
-	var edited_cells = edit_tile(position, -1)
-	if edited_cells is GDScriptFunctionState:
-		edited_cells = yield(edited_cells, "completed")
-	if update:
-		update_navigation()
-	return edited_cells
+func get_AStar_cell_id(cellv: Vector2):
+	return int(cellv.y + cellv.x * get_used_rect().size.y)
 
-func fill_hole(position: Vector2, update=false):
-	edit_tile(position, 0)
-	update_nav_area()
-	if update:
-		update_navigation()
+func get_cell_point(cellv: Vector2):
+	return map_to_world(cellv) + cell_size/2
 
+func get_cell_from_pos(pos: Vector2):
+	return Vector2(floor(pos.x/cell_size.x), floor(pos.y/cell_size.y))
 
-func edit_tile(position: Vector2, tile_idx: int):
-	var edited_cells = []
-	var starting_cell_v = world_to_map(position)
-	var top_row = starting_cell_v.y - BUFFER
-	var bottom_row = starting_cell_v.y + TOWER_SIZE/cell_size.y - 1 + BUFFER
-	var left_col = starting_cell_v.x - BUFFER
-	var right_col = starting_cell_v.x + TOWER_SIZE/cell_size.y - 1 + BUFFER
-	
-	# Just tracing an outline of the tower in order to minimize nav areas edited
-	for x in range(left_col, right_col + 1):
-		for y in [top_row, bottom_row]:
-			var cell_position = Vector2(x, y)
-			if get_cellv(cell_position) != tile_idx:
-				set_cellv(cell_position, tile_idx)
-				edited_cells.append(cell_position)
-	for y in range(top_row+1, bottom_row):
-		for x in [left_col, right_col]:
-			var cell_position = Vector2(x, y)
-			if get_cellv(cell_position) != tile_idx:
-				set_cellv(cell_position, tile_idx)
-				edited_cells.append(cell_position)
-	return edited_cells
+func disconnect_cell_from_pos(pos: Vector2):
+	var cell = get_cell_from_pos(pos)
+	var idx = get_AStar_cell_id(cell)
+	var disconnected_cells = []
+	for neighbor in get_neighboring_cells(cell):
+		var neighbor_idx = get_AStar_cell_id(neighbor)
+		if aStar.are_points_connected(idx, neighbor_idx):
+			aStar.disconnect_points(idx, neighbor_idx)
+			disconnected_cells.append([idx, neighbor_idx])
+	return disconnected_cells
 
-func update_navigation():
-	update_dirty_quadrants()
-	Navigation2DServer.map_force_update(get_world_2d().get_navigation_map())
+func restore_cell_connections(cell_pairs):
+	for cell_pair in cell_pairs:
+		aStar.connect_points(cell_pair[0], cell_pair[1])
+
+func connect_cell_from_pos(pos: Vector2):
+	var cell = get_cell_from_pos(pos)
+	var idx = get_AStar_cell_id(cell)
+	for neighbor in get_neighboring_cells(cell):
+		aStar.connect_points(idx, get_AStar_cell_id(neighbor))
+
+func is_goal_reachable(from: Vector2):
+	var path = get_path_to_goal(from)
+	return !!path
+
+func get_neighboring_cells(cellv: Vector2):
+	# TODO: Add support for diagonal connections.
+	# It mostly works fine if we include them,
+	# but we just need to make sure to disconnect points that were connected diagonally when placing towers diagonally
+	var neighbors = [
+#		cellv + Vector2(-1, -1), # Upper-left
+		cellv + Vector2(0, -1), # Straight above
+#		cellv + Vector2(1, -1), # Upper-right
+		cellv + Vector2(-1, 0), # Left
+		cellv + Vector2(1, 0), # Right
+#		cellv + Vector2(-1, 1), # Lower-left
+		cellv + Vector2(0, 1), # Straight below
+#		cellv + Vector2(1, 1), # Lower-right
+		]
+	var filtered_neighbors = []
+	for neighbor in neighbors:
+		if get_cellv(neighbor) != INVALID_CELL:
+			filtered_neighbors.append(neighbor)
+	return filtered_neighbors
+
+func draw_debug_points():
+	if $Debug.get_child_count() > 0:
+		clear_debug_points()
+	for cell in get_used_cells():
+		var point = get_cell_point(cell)
+		var idx = get_AStar_cell_id(cell)
+		var sprite = Sprite.new()
+		sprite.texture = target_texture
+		sprite.scale = Vector2(0.25, 0.25)
+		sprite.global_position = point
+		$Debug.add_child(sprite)
+		for neighbor in get_neighboring_cells(cell):
+			if aStar.are_points_connected(idx, get_AStar_cell_id(neighbor)):
+				var debug_line = Line2D.new()
+				debug_line.points = PoolVector2Array([get_cell_point(cell), get_cell_point(neighbor)])
+				debug_line.width = 2
+				$Debug.add_child(debug_line)
+	var goal_sprite = Sprite.new()
+	goal_sprite.texture = target_texture
+	goal_sprite.position = goal_pos
+	goal_sprite.scale = Vector2(0.25, 0.25)
+	goal_sprite.modulate = Color.red
+	$Debug.add_child(goal_sprite)
+	var debug_line = Line2D.new()
+	debug_line.points = PoolVector2Array([goal_pos, get_cell_point(world_to_map(goal_pos))])
+	debug_line.width = 2
+	debug_line.default_color = Color.red
+	$Debug.add_child(debug_line)
+
+func clear_debug_points():
+	for child in $Debug.get_children():
+		$Debug.remove_child(child)
+
+func set_debug_mode(val):
+	debug_mode = val
+	if aStar:
+		if debug_mode:
+			draw_debug_points()
+		else:
+			clear_debug_points()

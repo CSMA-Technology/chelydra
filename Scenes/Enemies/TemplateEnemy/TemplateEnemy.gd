@@ -29,8 +29,8 @@ func set_debug(val: bool):
 func _physics_process(delta):
 	if goal.distance_to(global_position) < ARRIVAL_BUFFER:
 		handle_goal_arrival()
-	if not path:
-		update_path(get_world_2d().get_navigation_map())
+#	if not path:
+#		update_path(get_world_2d().get_navigation_map())
 	if path.size() > 0:
 		if (path[next_destination_idx].distance_to(global_position)) < ARRIVAL_BUFFER:
 			if path.size() > next_destination_idx + 1:
@@ -39,15 +39,19 @@ func _physics_process(delta):
 		var direction = (path[next_destination_idx] - global_position).normalized()
 		var movement = direction * speed
 		
-		move_and_collide(movement * delta)
+		move_and_slide(movement)
 		if debug_mode:
 			$Debug/MovementLine2d.points = PoolVector2Array([Vector2(0,0), direction * 100])
 			$Debug/PathLine2d.points = path
+	else:
+		print(path)
 
-func update_path(map):
-	if map == get_world_2d().get_navigation_map():
-		path = Navigation2DServer.map_get_path(get_world_2d().get_navigation_map(), global_position, goal, false)
-		next_destination_idx = 0
+# pop_front is useful because when alreayd moving along a grid, we may be past the nearest grid point, and thus starting a new path would make us backtrack
+func set_path(new_path, pop_front=false):
+	path = new_path
+	if pop_front:
+		path.remove(0)
+	next_destination_idx = 0
 
 func handle_goal_arrival():
 	emit_signal("reached_goal", 1)

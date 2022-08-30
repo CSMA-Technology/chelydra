@@ -25,7 +25,7 @@ resource_local_to_scene = true
 shader = SubResource( 2 )
 shader_param/turn_red = null
 
-[node name="TemplateEnemy" type="KinematicBody2D" groups=["Navigators"]]
+[node name="TemplateEnemy" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 8
 script = ExtResource( 1 )
