@@ -4,6 +4,7 @@ export var spawn_interval = 5
 export var plus_minus = 1
 export var is_spawning = false setget handle_is_spawning
 
+#TODO: Seperate this into regions when we support multiple spawn locations
 var spawn_positions = []
 
 func _ready():

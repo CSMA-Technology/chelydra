@@ -28,6 +28,10 @@ config/icon="res://icon.png"
 
 GameManager="*res://Scenes/Utils/GameManager.gd"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/size/width=1536
@@ -58,6 +62,12 @@ shoot={
 2d_physics/layer_2="Enemies"
 2d_physics/layer_3="Spawns"
 2d_physics/layer_4="Projectiles"
+2d_navigation/layer_1="Main"
+2d_navigation/layer_2="Mock"
+
+[network]
+
+limits/debugger_stdout/max_chars_per_second=8192
 
 [physics]
 
@@ -65,4 +75,6 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
 environment/default_environment="res://default_env.tres"
