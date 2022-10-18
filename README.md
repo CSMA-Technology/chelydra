@@ -1,9 +1,8 @@
-# Chelydra
-## aka Desk Defender
+# Chelydra aka Desk Defender
 
 ## About the Project
 ### Overview
-Desk Defender is a tower defense game where the player uses common desk litter as towers to prevent work soldiers from shoving emails, messages, etc into the player’s phone. The player can collect towers as cards to deploy in the level.
+**Desk Defender** is a tower defense game where the player uses common desk litter as towers to prevent work soldiers from shoving emails, messages, etc into the player’s phone. The player can collect towers as cards to deploy in the level.
 
 ### Narrative
 You're at work on a virtual meeting, and you're starting to doze off. You are transported into a dream-state in which your desk items have come alive and are your only defense against the notifications piling up from your evil Boss sending you more and more work. 
@@ -39,3 +38,8 @@ If you would like to work with us on this project, or have suggestions on how to
 
 ## Contacting Us
 This project is part of CSMA Technology. To reach out to us, feel free to use the contact form on our website here: https://csma.technology/contact
+
+### Our Team
+* [Stephanie Cruz](https://github.com/exscruzme) - stephanie@csma.technology
+* [Adrian Moya](https://github.com/admoya) - adrian@csma.technology
+* [Conor Doherty](https://github.com/DingusBungus) - Conor.doherty1212@gmail.com
